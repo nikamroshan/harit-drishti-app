@@ -1,27 +1,35 @@
 import { Home, Activity, Cloud, FileText, MessageSquare, Bell, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
-const navigationItems = [
-  { icon: Home, label: "होम", key: "home", active: true },
-  { icon: Activity, label: "भविष्यवाणी", key: "prediction" },
-  { icon: Cloud, label: "मौसम", key: "weather" },
-  { icon: FileText, label: "रिपोर्ट", key: "reports" },
-  { icon: MessageSquare, label: "सहायता", key: "chat" },
-];
+import { useNavigate, useLocation } from "react-router-dom";
+import { useLanguage } from "@/components/LanguageContext";
 
 export function FarmingNavigation() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { t } = useLanguage();
+
+  const navigationItems = [
+    { icon: Home, label: t("home"), key: "home", path: "/" },
+    { icon: Activity, label: t("prediction"), key: "prediction", path: "/prediction" },
+    { icon: Cloud, label: t("weather"), key: "weather", path: "/weather" },
+    { icon: FileText, label: t("reports"), key: "reports", path: "/reports" },
+    { icon: MessageSquare, label: t("chat"), key: "chat", path: "/chat" },
+  ];
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-card border-t border-border p-2 md:relative md:border-0 md:bg-transparent md:p-0">
       <div className="flex justify-around items-center md:flex-col md:space-y-2">
         {navigationItems.map((item) => {
           const Icon = item.icon;
+          const isActive = location.pathname === item.path;
           return (
             <Button
               key={item.key}
-              variant={item.active ? "farming" : "ghost"}
+              variant={isActive ? "farming" : "ghost"}
               size="lg"
               className="flex-col space-y-1 h-auto py-2 px-3 md:w-full md:flex-row md:justify-start md:space-y-0 md:space-x-3"
+              onClick={() => navigate(item.path)}
             >
               <Icon className="h-6 w-6" />
               <span className="text-xs md:text-sm font-medium">{item.label}</span>

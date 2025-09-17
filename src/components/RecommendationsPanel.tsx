@@ -12,6 +12,7 @@ import {
   CheckCircle,
   Clock
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const recommendations = [
   {
@@ -74,6 +75,8 @@ const getPriorityBadge = (priority: string) => {
 };
 
 export function RecommendationsPanel() {
+  const navigate = useNavigate();
+  
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -142,10 +145,11 @@ export function RecommendationsPanel() {
                   </div>
                 </div>
                 <div className="flex-shrink-0">
-                  <Button 
-                    variant={rec.priority === "high" ? "farming" : "outline"} 
-                    size="sm"
-                  >
+              <Button 
+                variant={rec.priority === "high" ? "farming" : "outline"} 
+                size="sm"
+                onClick={() => navigate('/prediction')}
+              >
                     {rec.action}
                   </Button>
                 </div>
